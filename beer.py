@@ -1,19 +1,10 @@
-print('How much beer can you drink? ')
-def categorize_number(number):
-    if number == 0:
-        category = "You eat grass for a living"
-    elif 1 <= number <= 3:
-        category = "You are a noob"
-    elif 4 <= number <= 8:
-        category = "You are a decent human being"
-    elif 9 <= number <= 12:
-        category = "Living Large!"
-    else:
-        category = "You need help"
-    return category
+def bottles_of_beer():
+    for i in range(99, 0, -1):
+        print(f"{i} bottles of beer on the wall, {i} bottles of beer.")
+        print(f"Take one down and pass it around, {i-1 if i > 1 else 'no more'} bottles of beer on the wall.\n")
+    print("No more bottles of beer on the wall, no more bottles of beer.")
+    print("Go to the store and buy some more, 99 bottles of beer on the wall.\n")
 
-number = int(input("Enter the number of beers per day: ))
-category = categorize_number(number)
-
-print("Enter the amount of beers per day")
+if __name__ == "__main__":
+    bottles_of_beer()
 
