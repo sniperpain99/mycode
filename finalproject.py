@@ -1,41 +1,67 @@
+import tkinter as tk
 import serial
-import time
-import tkinter as Tk
 
-window = tk.Tk()
-window.configure(background="gray")
-window.geometry("330x80")
-window.title("Motor Control - Python GUI")
+# Placeholder for serial connection
+arduino = None
 
-megaboard = serial.Serial('COM5', 9600)
+def connect_arduino(port='COM3', baud_rate=9600):
+    global arduino
+    try:
+        arduino = serial.Serial(port, baud_rate)
+        print("Arduino connected successfully.")
+    except Exception as e:
+        print(f"Failed to connect to Arduino: {e}")
 
-def motor_control():
-    print(">>>MOTOR CTRL PROGRAM<<<\n")
-    def forward():
-        print("CTRL -> FORWARD + GREEN LED -> ON")
-        megaboard.write(b'F')
+def send_command(command):
+    if arduino:
+        arduino.write(command.encode())
+    else:
+        print("Arduino not connected.")
 
-    def reverse():
-        print("CTRL -> REVERSE +RED LED -> ON")
-        megaboard.write(b'R')
+def forward():
+    print("Moving forward")
+    send_command('F')
 
-    def quit():
-        print("\n**END OF PROGRAM**")
-        megaboard.write(b'Q')
-        megaboard.close()
-        window.destroy()
+def backward():
+    print("Moving backward")
+    send_command('B')
 
-    b1 = tk.Button(window, text="FORWARD", command=forward,bg="forest green", fg="gray7", font=("Comic Sans MS", 15))
+def face_left():
+    print("Facing left")
+    send_command('L')
 
-    b2 = tk.Button(window, text="REVERSE", command=reverse, bg="firebrick2", fg="ghost white", font=("Comic Sans MS", 15))
+def face_right():
+    print("Facing right")
+    send_command('R')
 
-    b3 = tk.Button(window, text="EXIT", command=quit, bg="gold", fg="gray7", font=("Comic Sans MS", 15))
+def quit_app():
+    if arduino:
+        arduino.close()
+    root.destroy()
 
-    b1.grid(row=1, column=0, padx=5, pady=10)
-    b2.grid(row=1, column=1, padx=5, pady=10)
-    b3.grid(row=1, column=2, padx=5, pady=10)
+# Create the main window
+root = tk.Tk()
+root.title("Arduino Control GUI")
 
-    window.mainloop()
+# Create buttons
+btn_forward = tk.Button(root, text="Forward", command=forward)
+btn_forward.pack(pady=10)
 
-time_sleep(2)
-motor_control()
+btn_backward = tk.Button(root, text="Backward", command=backward)
+btn_backward.pack(pady=10)
+
+btn_face_left = tk.Button(root, text="Face Left", command=face_left)
+btn_face_left.pack(pady=10)
+
+btn_face_right = tk.Button(root, text="Face Right", command=face_right)
+btn_face_right.pack(pady=10)
+
+btn_quit = tk.Button(root, text="Quit", command=quit_app)
+btn_quit.pack(pady=10)
+
+# Connect to Arduino (Adjust the port and baud rate as needed)
+connect_arduino(port='COM3', baud_rate=9600)
+
+# Run the application
+root.mainloop()
+
