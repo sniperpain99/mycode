@@ -1,0 +1,17 @@
+Arduino to L298N Connections:
+Arduino Pin 2 to L298N IN1 (controls left motor forward)
+Arduino Pin 3 to L298N IN2 (controls left motor backward)
+Arduino Pin 4 to L298N IN3 (controls right motor forward)
+Arduino Pin 5 to L298N IN4 (controls right motor backward)
+
+L298N to Motor Connections:
+Connect the left motor to L298N OUT1 and OUT2
+Connect the right motor to L298N OUT3 and OUT4
+
+Power Connections:
+*leave the power jumper enabled for 7-12V input for the motor controller*
+*don't use the 5VC out on the L298N to Arduino, because the
+Arduino will be powered by the USB cable.*
+
+Connect the 12V power supply positive to L298N VCC
+Connect the 12V power supply ground to L298N GND and to the Arduino GND

@@ -1,0 +1,56 @@
+void setup() {
+  // Start the serial communication
+  Serial.begin(9600);
+
+  // Set up the pins for the motor control (adjust these to your specific setup)
+  pinMode(2, OUTPUT); // Left motor forward
+  pinMode(3, OUTPUT); // Left motor backward
+  pinMode(4, OUTPUT); // Right motor forward
+  pinMode(5, OUTPUT); // Right motor backward
+}
+
+void loop() {
+  // Check if data is available to read
+  if (Serial.available() > 0) {
+    // Read the incoming byte
+    char command = Serial.read();
+
+    // Execute actions based on the received command
+    switch (command) {
+      case 'F': // Forward
+        digitalWrite(2, HIGH);
+        digitalWrite(3, LOW);
+        digitalWrite(4, HIGH);
+        digitalWrite(5, LOW);
+        break;
+
+      case 'B': // Backward
+        digitalWrite(2, LOW);
+        digitalWrite(3, HIGH);
+        digitalWrite(4, LOW);
+        digitalWrite(5, HIGH);
+        break;
+
+      case 'L': // Turn left
+        digitalWrite(2, LOW);
+        digitalWrite(3, HIGH);
+        digitalWrite(4, HIGH);
+        digitalWrite(5, LOW);
+        break;
+
+      case 'R': // Turn right
+        digitalWrite(2, HIGH);
+        digitalWrite(3, LOW);
+        digitalWrite(4, LOW);
+        digitalWrite(5, HIGH);
+        break;
+
+      case 'S': // Stop
+        digitalWrite(2, LOW);
+        digitalWrite(3, LOW);
+        digitalWrite(4, LOW);
+        digitalWrite(5, LOW);
+        break;
+    }
+  }
+}
