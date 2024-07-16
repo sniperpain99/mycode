@@ -7,6 +7,12 @@ void setup() {
   pinMode(3, OUTPUT); // Left motor backward
   pinMode(4, OUTPUT); // Right motor forward
   pinMode(5, OUTPUT); // Right motor backward
+
+  // Initialize the motors to be off
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
 }
 
 void loop() {
@@ -14,42 +20,53 @@ void loop() {
   if (Serial.available() > 0) {
     // Read the incoming byte
     char command = Serial.read();
+    Serial.print("Received command: ");
+    Serial.println(command);
 
     // Execute actions based on the received command
     switch (command) {
       case 'F': // Forward
-        digitalWrite(2, HIGH);
+        Serial.println("Moving Forward");
+        analogWrite(2, 153); // 60% speed
         digitalWrite(3, LOW);
-        digitalWrite(4, HIGH);
+        analogWrite(4, 153); // 60% speed
         digitalWrite(5, LOW);
         break;
 
       case 'B': // Backward
+        Serial.println("Moving Backward");
         digitalWrite(2, LOW);
-        digitalWrite(3, HIGH);
+        analogWrite(3, 153); // 60% speed
         digitalWrite(4, LOW);
-        digitalWrite(5, HIGH);
+        analogWrite(5, 153); // 60% speed
         break;
 
       case 'L': // Turn left
+        Serial.println("Turning Left");
         digitalWrite(2, LOW);
-        digitalWrite(3, HIGH);
-        digitalWrite(4, HIGH);
+        analogWrite(3, 153); // 60% speed
+        analogWrite(4, 153); // 60% speed
         digitalWrite(5, LOW);
         break;
 
       case 'R': // Turn right
-        digitalWrite(2, HIGH);
+        Serial.println("Turning Right");
+        analogWrite(2, 153); // 60% speed
         digitalWrite(3, LOW);
         digitalWrite(4, LOW);
-        digitalWrite(5, HIGH);
+        analogWrite(5, 153); // 60% speed
         break;
 
       case 'S': // Stop
+        Serial.println("Stopping");
         digitalWrite(2, LOW);
         digitalWrite(3, LOW);
         digitalWrite(4, LOW);
         digitalWrite(5, LOW);
+        break;
+        
+      default:
+        Serial.println("Unknown Command");
         break;
     }
   }
